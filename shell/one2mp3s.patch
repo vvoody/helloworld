@@ -1,0 +1,15 @@
+--- one2mp3s.sh	2008-10-13 15:56:36.000000000 +0800
++++ one2mp3s.fix.sh	2008-10-13 17:18:52.000000000 +0800
+@@ -53,6 +53,12 @@
+ # More output format, see `man shntool`
+ shntool split -f "$cuefile" -t '%n.%t' -o 'cust ext=mp3 lame -b 320 - %f' "$hifile"
+ 
++# Remove the pregrap file, or it will make write the id3 incorrectly.
++if [ -f "00.pregap.mp3" ]; then
++    rm -f 00.pregap.mp3
++    echo "00.pregap.mp3 found! Removed it."
++fi
++
+ # Write the id3v2 into the mp3 files.
+ acount=1
+ for mp3file in *.mp3; do

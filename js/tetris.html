@@ -1,0 +1,114 @@
+<html> 
+<head> 
+<title>game 80 line</title> 
+<meta charset="UTF-8">
+<!--
+/*
+ * 本程序基于某网络版本做了如下修改：
+ *   1. 使每种方块拥有不同的颜色，原版本是一种黑色；
+ *         M qjstall
+ *         A sq_colors[]
+ *   2. 增加初始随机选择方块，原版本第一个方块永远是长条；
+ *         M start()
+ *   3. 增加注释
+ *
+ *   by vvoody
+ */
+-->
+</head> 
+<script language=javascript> 
+var bgsz=new Array(),qjtsz=new Array(),bgcols=28,bgrows=28,pointx=4,pointy=4,hcst='vvoody',pointz=0,keybz=0,fangkuaileixing=0; 
+for (var x=0;x<bgrows;x++) for(var y=0;y<bgcols;y++) bgsz[x*bgrows+y]=0; 
+for (var x=3;x<bgrows-3;x++) for(var y=3;y<bgcols-3;y++) bgsz[x*bgrows+y]=9; // 边框
+for (var x=4;x<bgrows-4;x++) for(var y=4;y<bgcols-4;y++) bgsz[x*bgrows+y]=0; // 内圈
+for (var x=0;x<bgrows;x++) bgsz[(x+1)*bgcols-1]=8; //每行最后一个
+
+// 每个方块有不同的颜色，原来版本都是一种颜色
+qjstall="0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,$0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,$0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,$0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,$0,0,0,0,0,2,2,0,0,2,2,0,0,0,0,0,$0,0,0,0,0,2,2,0,0,2,2,0,0,0,0,0,$0,0,0,0,0,2,2,0,0,2,2,0,0,0,0,0,$0,0,0,0,0,2,2,0,0,2,2,0,0,0,0,0,$0,3,0,0,3,3,3,0,0,0,0,0,0,0,0,0,$0,3,0,0,0,3,3,0,0,3,0,0,0,0,0,0,$0,0,0,0,3,3,3,0,0,3,0,0,0,0,0,0,$0,3,0,0,3,3,0,0,0,3,0,0,0,0,0,0,$0,4,0,0,0,4,0,0,0,4,4,0,0,0,0,0,$0,0,0,0,4,4,4,0,4,0,0,0,0,0,0,0,$0,4,4,0,0,0,4,0,0,0,4,0,0,0,0,0,$0,0,4,0,4,4,4,0,0,0,0,0,0,0,0,0,$0,0,5,0,0,0,5,0,0,5,5,0,0,0,0,0,$5,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,$0,5,5,0,0,5,0,0,0,5,0,0,0,0,0,0,$5,5,5,0,0,0,5,0,0,0,0,0,0,0,0,0,$0,6,0,0,0,6,6,0,0,0,6,0,0,0,0,0,$0,6,6,0,6,6,0,0,0,0,0,0,0,0,0,0,$0,6,0,0,0,6,6,0,0,0,6,0,0,0,0,0,$0,6,6,0,6,6,0,0,0,0,0,0,0,0,0,0,$0,0,7,0,0,7,7,0,0,7,0,0,0,0,0,0,$7,7,0,0,0,7,7,0,0,0,0,0,0,0,0,0,$0,0,7,0,0,7,7,0,0,7,0,0,0,0,0,0,$7,7,0,0,0,7,7,0,0,0,0,0,0,0,0,0,"; 
+qjtsz=qjstall.split('$') 
+
+var sq_colors = ["<font color=blue>■</font>", "<font color=yellow>■</font>", "<font color=red>■</font>", "<font color=orange>■</font>", "<font color=#00FFFF>■</font>", "<font color=green>■</font>", "<font color=purple>■</font>"];
+
+function hc(iny,inx,inz) { 
+     if (inz>3) inz=0; 
+     var hcsz=new Array(),downbz=false,qjsz=qjtsz[fangkuaileixing*4+inz].split(','); // downbz 判断是否触底或者碰到方块; qjsz 当前下落方块的形状数组
+     for(var x=0;x<bgsz.length;x++) hcsz[x]=bgsz[x]; 
+     for(var x=0;x<4;x++) { 
+           for (var y=0;y<4;y++) { 
+//                 if (bgsz[(inx+x)*bgrows+(iny+y)]+qjsz[x*4+y]*1>9) { // 是否触底或者碰到方块
+                 if (bgsz[(inx+x)*bgrows+(iny+y)]*qjsz[x*4+y]*1 != 0) { // 是否触底或者碰到方块
+                       if (pointx==inx) return; // 边界
+                       downbz=true; // 触底或碰到方块
+                       inx=pointx; 
+                       iny=pointy; // 使用上次的位置
+                       break; 
+                 } 
+           } 
+     } 
+     for(var x=0;x<4;x++) for (var y=0;y<4;y++) hcsz[(inx+x)*bgrows+(iny+y)]=bgsz[(inx+x)*bgrows+(iny+y)]+qjsz[x*4+y]*1; // 画出下落方块
+     hcst=hcsz.join('').replace(/8/g,'<br>'); 
+     hcst=hcst.replace(/0/g,'<font color=white>■</font>'); 
+     hcst=hcst.replace(/[89]/g,'■'); // no 78
+//     hcst=hcst.replace(/5/g,'■'); // 显示方块
+     hcst=hcst.replace(/1/g, sq_colors[0]); // Bad method :(
+     hcst=hcst.replace(/2/g, sq_colors[1]);
+     hcst=hcst.replace(/3/g, sq_colors[2]);
+     hcst=hcst.replace(/4/g, sq_colors[3]);
+     hcst=hcst.replace(/5/g, sq_colors[4]);
+     hcst=hcst.replace(/6/g, sq_colors[5]);
+     hcst=hcst.replace(/7/g, sq_colors[6]);
+     if (downbz) { 
+           pointx=4; 
+           pointy=4; // 复位，下一个出现的位置
+           for(var x=0;x<hcsz.length;x++) bgsz[x]=hcsz[x]; // 固定所有方块
+           for (var x=4;x<bgrows-4;x++) { // 从上至下扫描是否有可消去行
+                 var manbz=true; 
+                 for(var y=4;y<bgcols-4;y++) if (bgsz[x*bgrows+y]==0) manbz=false; // 一行全不为0才消掉
+                 if (manbz) { 
+                       for (var z=x;z>5;z--) for(var y=4;y<bgcols-4;y++) bgsz[z*bgrows+y]=bgsz[(z-1)*bgrows+y]; // 整体下移一行，这行用上一行代替
+                       for(var y=4;y<bgcols-4;y++) bgsz[z*bgrows+y]=0; // 第5行清空
+                 } 
+           } 
+           if ( (fangkuaileixing=Math.round(Math.random()*6)) >6) fangkuaileixing=0; 
+           keybz=38; 
+     } 
+     else { 
+           pointx=inx; 
+           pointy=iny; 
+           pointz=inz; 
+     } 
+} 
+function loop() { 
+     if (keybz==37) hc(pointy-1,pointx,pointz); // KEY_LEFT
+     if (keybz==39) hc(pointy+1,pointx,pointz); // KEY_RIGHT
+     if (keybz==40) hc(pointy,pointx+1,pointz); // KEY_DOWN
+     if (keybz==38) hc(pointy,pointx,pointz+1); // KEY_UP
+     document.body.innerHTML="welcome"+hcst; 
+      
+     keybz=0; 
+     setTimeout(loop,0); 
+} 
+function timeint() { 
+     keybz=40; 
+     setTimeout(timeint,1000); 
+} 
+function start() { 
+     if ( (fangkuaileixing=Math.round(Math.random()*6)) >6) fangkuaileixing=0; 
+     loop(); 
+     timeint(); 
+//     keybz=38; 
+} 
+function down(e) { 
+     try{ 
+           keybz=event.keyCode;
+     } 
+     catch(a){ 
+           keybz=down.arguments[0].keyCode; 
+     } 
+} 
+document.onkeydown=down; 
+document.onkeypress=down; 
+</script> 
+<body onload="start();"> 
+</body> 
+</html> 
