@@ -9,13 +9,12 @@ fi
 
 files=($@)
 URL="http://bbs.operachina.com/posting.php?mode=edit&f=72&p=223715"
-USER=
-PASSWD=
 
 # Latest snapshot version
 latest="$(echo $1 | cut -d '.' -f1).$(echo $1 | cut -d '.' -f2)"
 echo $latest
-
+USER=
+PASSWD=
 # STEP 0: fetch cookies
 curl -L -s -c operachina.txt -d "autologin=on&username=${USER}&password=${PASSWD}&redirect=index.php&login=%E7%99%BB%E5%BD%95" "http://bbs.operachina.com/ucp.php?mode=login"
 
@@ -58,5 +57,7 @@ _post="提交"
 _attch_id=($(echo "$form" | grep attach_id | cut -d '=' -f3 | cut -d ' ' -f1))
 _attachment_data="$(i=0;j=$[$#-1];for f in "$@"; do echo '-F "'"attachment_data[${i}][attach_id]=${_attch_id[$i]}"'"'; echo '-F "'"attachment_data[${i}][is_orphan]=0"'"'; echo '-F "'"attachment_data[${i}][real_filename]=${files[$j]}"'"'; i=$[$i+1]; j=$[$j-1]; done)"
 
-cmd='curl -b operachina.txt -F "subject='$_subject'" -F "message='$_message'" -F "lastclick='$_lastclick'" -F "attach_sig='$_attach_sig'" -F "creation_time='$_creation_time'" -F "form_token='$_form_token'" '$_attachment_data' -F "proxid='$_proxid'" -F "post='$_post'" "'$URL'" -o sub.html'
+# Need a rest?
+sleep 5
+cmd='curl -b operachina.txt -F "subject='"$_subject"'" -F "message='"$_message"'" -F "lastclick='$_lastclick'" -F "attach_sig='$_attach_sig'" -F "creation_time='$_creation_time'" -F "form_token='$_form_token'" '$_attachment_data' -F "proxid='$_proxid'" -F "post='$_post'" "'$URL'" -o sub.html'
 eval $cmd
