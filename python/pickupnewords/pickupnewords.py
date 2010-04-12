@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 # The Oxford 3000 wordlist - http://is.gd/bpikU
 #
 #   1. Emacs C-x r d
@@ -16,11 +16,12 @@ def pickup_words(filename):
 
     strip = string.whitespace + string.punctuation + string.digits + "\"'"
     words = []
-    for line in open(filename, 'r'):
-        for w in line.split():
-            word = w.strip(strip)
-            if len(word) >= 2:
-                words.append(word.lower())
+    with open(filename, 'r') as f:
+        for line in f:
+            for w in line.split():
+                w = w.strip(strip)
+                if len(w) >= 2:
+                    words.append(w.lower())
     return words
 
 if __name__ == "__main__":
@@ -32,5 +33,7 @@ if __name__ == "__main__":
         for f in sys.argv[1:]:
             wordslist += pickup_words(f)
         new_words = set(wordslist)
-        old_words = pickle.load(open('oxford3k.dat', 'r'))
+        f = open('oldwords.dat', 'r')
+        old_words = pickle.load(f)
         print new_words - old_words
+        f.close()
