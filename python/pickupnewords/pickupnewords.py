@@ -25,10 +25,16 @@ def pickup_words(filename):
     return words
 
 help_doc = """
-0,9,13, 21
-all
-!0,9,13,21
-!all -> RET
+
+You can store the known words with following pattern commands:
+
+    0,9,13, 21    ==>   Just store the words of the words list
+    all           ==>   Store all words(means you know all)
+    !0,9,13,21    ==>   Store all words except you refer exactly
+    !all          ==>   Store nothing(means they are all new words)
+    !             ==>   Same as above
+    <Enter>       ==>   Same as above
+
 """
 
 if __name__ == "__main__":
@@ -39,15 +45,17 @@ if __name__ == "__main__":
         wordslist = []
         for f in sys.argv[1:]:
             wordslist += pickup_words(f)
+        # 'oldwords.dat' is a database of words you have already known
         oldf = open('oldwords.dat', 'r+')
         old_words = pickle.load(oldf)
         oldf.seek(0)
         new_words = list(set(wordslist) - old_words)
         for i in range(len(new_words)):
             print i, '"%s"' % new_words[i]
-        #sys.exit()
-        # Store the words you have already known, cmd not check carefully
-        cmd = raw_input("Stroe the words already known: ").strip(' ,')
+        #
+        # Store the words you have already known,
+        # commands are not checked carefully & UGLY
+        cmd = raw_input("Stroe the words already known(? for help)> ").strip(' ,')
         if cmd [:1] == '?' or cmd[:1] == 'h' or cmd[:4] == 'help':
             print help_doc
         # all words are new
