@@ -10,6 +10,8 @@ import sys
 import string
 import pickle
 
+# An simple implementation of parsing English words
+# Not able to distinguish the participles
 def pickup_words(filename):
     """Find out the words from a file and return a list.
     """
@@ -51,7 +53,8 @@ if __name__ == "__main__":
         oldf.seek(0)
         new_words = list(set(wordslist) - old_words)
         for i in range(len(new_words)):
-            print i, '"%s"' % new_words[i]
+            print "%2d. %-15s" % (i, new_words[i]),
+            if (i+1)%4 == 0: print
         #
         # Store the words you have already known,
         # commands are not checked carefully & UGLY
