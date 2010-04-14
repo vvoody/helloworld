@@ -16,7 +16,7 @@ echo $latest
 echo -n "username: "
 read USER
 echo -n "password: "
-read PASSWD
+read -s PASSWD
 # STEP 0: fetch cookies
 curl -L -s -c operachina.txt -d "autologin=on&username=${USER}&password=${PASSWD}&redirect=index.php&login=%E7%99%BB%E5%BD%95" "http://bbs.operachina.com/ucp.php?mode=login"
 
