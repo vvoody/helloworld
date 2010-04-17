@@ -78,7 +78,7 @@ if __name__ == "__main__":
         # Store exactly
         elif cmd[0] in '1234567890':
             old_words= old_words.union(
-                set([new_words[int(i)] for i in cmd[1:].split(',')])
+                set([new_words[int(i)] for i in cmd.split(',')])
                 )
             pickle.dump(old_words, oldf)
         else:
