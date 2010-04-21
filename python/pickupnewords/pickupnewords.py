@@ -85,9 +85,10 @@ if __name__ == "__main__":
         # Remove words
         elif cmd[0] == '-':
             words_to_remove = set(map(lambda x : x.strip(), cmd[1:].split(',')))
-            old_words = old_words - words_to_remove
-            oldf.truncate(0)
-            pickle.dump(old_words, oldf)
+            if words_to_remove & old_words != set([]):
+                old_words = old_words - words_to_remove
+                oldf.truncate(0)
+                pickle.dump(old_words, oldf)
         else:
             print "Unknown command!"
         #
