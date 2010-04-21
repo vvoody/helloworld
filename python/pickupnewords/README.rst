@@ -63,6 +63,10 @@ Remember the words
     !all
     JUST HIT ENTER
 
+- Remove some words from oldwords.dat::
+
+    -word1, word2, word3
+
 In the future, feel free to pick up the real new words.
 
 ------------------------
@@ -72,6 +76,9 @@ FILES
 
 *README.rst*
   This document itself.
+
+*TODO*
+  Features maybe in the future.
 
 *oldwords.dat*
   | The basic words set the program has assumed that you have known. This
