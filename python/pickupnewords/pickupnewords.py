@@ -36,6 +36,7 @@ You can store the known words with following pattern commands:
     !all          ==>   Store nothing(means they are all new words)
     !             ==>   Same as above
     <Enter>       ==>   Same as above
+    -word1,word2  ==>   Remove some words, cuz they are new
 
 """
 
@@ -80,6 +81,12 @@ if __name__ == "__main__":
             old_words= old_words.union(
                 set([new_words[int(i)] for i in cmd.split(',')])
                 )
+            pickle.dump(old_words, oldf)
+        # Remove words
+        elif cmd[0] == '-':
+            words_to_remove = set(map(lambda x : x.strip(), cmd[1:].split(',')))
+            old_words = old_words - words_to_remove
+            oldf.truncate(0)
             pickle.dump(old_words, oldf)
         else:
             print "Unknown command!"
