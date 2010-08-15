@@ -4,6 +4,9 @@ cd /home/vvoody/lab/backend-2.6.1_git/
 current_branch=$(git branch | grep '*' | cut -d ' ' -f2)
 if [ current_branch != "master" ]; then
 	git checkout master
+	if [ $? -ne 0 ]; then
+		exit 1
+	fi
 fi
 
 result=$(git svn rebase)
