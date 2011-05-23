@@ -1,0 +1,242 @@
+\documentclass[a4paper,11pt, twoside]{article}
+
+\usepackage{verbatim}
+%\usepackage{algorithmicx}
+%\usepackage{IEEEtrantools}
+
+% pdftex setting
+\usepackage[pdftex]{color,graphicx}
+\usepackage[pdftex]{hyperref}
+\hypersetup{pdfauthor=vvoody}
+\hypersetup{pdftitle={hello, LaTeX!},
+            colorlinks=true,
+            unicode=true,
+            linkcolor=blue,
+            citecolor=green,
+            filecolor=magenta,
+            urlcolor=magenta}
+
+% define the title
+\author{vvoody}
+\title{Hello, World!}
+
+%\pagestyle{headings}
+
+\begin{document}
+
+% generates the title
+
+\maketitle
+
+% insert the table of contents
+
+\tableofcontents
+
+\newpage
+\section{Some Interesting Words}
+
+Well, and here begins my lovely article.
+
+\section{test}
+
+hello, what? \LaTeX
+\label{sec:sec1}
+
+\subsection{test-subsection}
+
+\TeX{} hello
+
+\subsubsection[not-too-long]{test-subsubsec-looooooooooooooooooooooooooooooooooooooooooooog}
+
+eeeeeeeeeee
+
+\subsubsection*{test-subsubsec-no}
+
+OOOOOOOOOOOOOOOOOOOOO
+
+\paragraph{test-para}
+
+fejifej,fe fejie ,fejiaj iefj aijfe ,
+fejapfhgeg8aj,feoajgaj gajga g,feaij iajge ij hellfoe,feji,
+feaijg,aeg aegjai ,gmaeigioj,geagoijej
+
+\subparagraph{subpara}
+
+fefjajej,fe foajio jfa,feajgioa gj
+
+\newpage
+\section{Good Bye World.\protect\footnote{blablabla}}
+
+% Example 1
+\ldots when Einstein introduced his formula
+\begin{equation}
+e = m \cdot c^2 \; ,
+\end{equation}
+which is at the same time the most widely known
+and the least well understood physical formula.
+
+% Example 2
+\ldots from which follows Kirchhoff’s current law:
+\begin{equation}
+\sum_{k=1}^{n} I_k = 0 \; .
+\end{equation}
+
+Kirchhoff’s voltage law can be derived \ldots
+
+% Example 3
+\ldots which has several advantages.
+
+\begin{equation}
+I_D = I_F - I_R
+\end{equation}
+is the core of a very different transistor model. \ldots
+\\
+\\
+daughter-in-law, X-rated\\
+pages 13--67\\
+yes---or no? \\
+$0$, $1$ and $-1$
+
+http://www.rich.edu/\~{}bush \\
+http://www.clever.edu/$\sim$demo
+
+Mr. Smith was happy to see her\\
+cf. Fig. 5\\
+I like BASIC\@. What about you?\footnote{This is a footnote.}
+
+A reference to this subsection looks like:
+‘‘see section \ref{sec:sec1} on
+page \pageref{sec:sec1}.’’
+
+\newpage
+
+\section{some formats}
+
+Not shelfful\\
+but shelf\mbox{}ful
+\\
+H\^otel, na\"\i ve, \'el\`eve,\\
+sm\o rrebr\o d, !`Se\ norita!,\\
+Sch\"onbrunner Schlo\ss{}
+Stra\ss e
+
+\verbatiminput{assignment1.pl}
+
+\newpage
+
+\part{part-1}
+
+part1111111111111111111111111111111111111111111111111111111111111
+
+\begin{figure}[!h]
+\centering
+\includegraphics[angle=45]{8z1.jpg}
+\caption{8z monkey}
+\end{figure}
+
+The \href{http://www.ctan.org}{CTAN} website.
+
+\url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=ifpdf}
+
+\part{part-2}
+
+partttttttttttttttttttttttttttttwwwwwwwwwwwwwwwwwwwwwoooooooooooooooo
+
+The \verb|\ldots| command \ldots, the \verb*|  \LaTeX  | command \LaTeX.
+\begin{verbatim}
+10 PRINT ”HELLO WORLD ”;
+20 GOTO 10
+\end{verbatim}
+
+\begin{verbatim*}
+the starred version of
+the
+verbatim
+environment emphasizes
+the spaces
+in the text
+\end{verbatim*}
+
+
+\begin{table}[h]
+\caption{table 0}
+\begin{center}
+\begin{tabular}{|r|l|}
+\hline
+7C0 & hexadecimal \\
+3700 & octal \\
+\cline{2-2}
+11111000000 & binary \\
+\hline
+\hline
+1984 & decimal \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+table 1:
+\begin{tabular}{|p{4.7cm}|}
+\hline
+Welcome to Boxy’s paragraph.
+We sincerely hope you’ll
+all enjoy the show.\\
+\hline
+\end{tabular}
+
+table 2:
+\begin{tabular}{c r @{.} l}
+Pi expression
+&
+\multicolumn{2}{c}{Value} \\
+\hline
+$\pi$
+& 3&1416 \\
+$\pi^{\pi}$
+& 36&46
+\\
+$(\pi^{\pi})^{\pi}$ & 80662&7 \\
+\end{tabular}
+
+table 3:
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{Ene} \\
+\hline
+Mene & Muh! \\
+\hline
+\end{tabular}
+
+\begin{tabular}{@{} l @{}}
+\hline
+no leading space\\
+\hline
+\end{tabular}
+
+
+\begin{table}[!htp]
+\begin{center}
+\begin{tabular}{l}
+\hline
+leading space left and right\\
+\hline
+\end{tabular}
+\caption{leading space}
+\end{center}
+\end{table}
+
+Figure \ref{white} is an example of Pop-Art.
+\begin{figure}[!htp]
+\makebox[\textwidth]{\framebox[5cm]{\rule{0pt}{5cm}}}
+\caption{Five by Five in Centimetres.\label{white}}
+\end{figure}
+
+compiled at \today.
+
+\newpage
+
+\appendix{Appendix}
+
+???
+
+\end{document}
