@@ -3,6 +3,8 @@
 # put it to crontab -e, every hour we have 10 minutes free to the SNS.
 # 0 * * * *   less-sns.sh stop
 # 10 * * * *  less-sns.sh start
+#
+# And run 'less-sns.sh start' at system startup
 
 LOG=/tmp/less-sns
 SNS="# LESS SNS
