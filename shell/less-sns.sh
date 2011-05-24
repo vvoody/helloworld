@@ -28,7 +28,7 @@ case "$1" in
 		mylog "no SNS now."
 		;;
 	stop)
-		sed -i '/# LESS SNS/,//d' /etc/hosts && mylog "free for SNS now."
+		sed -i '/# LESS SNS/{Q;q}' /etc/hosts && mylog "free for SNS now."
 		;;
 	*)
 		mylog "wrong argument '$1'"
