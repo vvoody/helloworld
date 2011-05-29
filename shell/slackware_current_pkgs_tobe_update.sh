@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Usage: head -140 ChangeLog.txt | $0
+# pkgbase() and package_name() are from Slackware pkgtools package.
 
 pkgbase() {
 	PKGEXT=$(echo $1 | rev | cut -f 1 -d . | rev)
