@@ -26,7 +26,8 @@ import logging
 # An example setting for Gmail
 me = {"LOGIN": "blablabla@gmail.com",
       "PASSWD": "cptbtptpbcptdtptp",
-      "SMTP": "smtp.gmail.com:587"}
+      "SMTP": "smtp.gmail.com:587",
+      "SSL": True}
 toaddrs = ["yadayadayada@gmail.com"]
 logfile = '/tmp/vps-login-notifier.log'
 # setting end.
@@ -40,7 +41,7 @@ def mail(fromaddr, toaddrs, msg):
     global me
 
     server = smtplib.SMTP(me['SMTP'])
-    server.starttls()
+    if me['SSL']: server.starttls()
     server.login(me['LOGIN'], me['PASSWD'])
     server.sendmail(fromaddr, toaddrs, msg)
     server.quit()
