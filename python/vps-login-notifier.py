@@ -21,6 +21,7 @@
 
 import smtplib
 import os
+import sys
 import logging
 
 # An example setting for Gmail
@@ -50,6 +51,15 @@ def get_ssh_login_info():
     return os.environ['SSH_CONNECTION'] if 'SSH_CONNECTION' in os.environ else 'No any ssh connection info found!'
 
 if __name__ == "__main__":
+    try:
+        pid = os.fork()
+        if pid > 0:
+            print "Welcome aboard."
+            sys.exit(0)
+    except OSError, e:
+        print >> sys.stderr, "fork #1 failed: %d (%s)" % (e.errno, e.strerror)
+        sys.exit(1)
+
     logging.basicConfig(filename=logfile,
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
