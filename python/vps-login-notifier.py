@@ -64,10 +64,13 @@ if __name__ == "__main__":
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
 
+    ssh_info = get_ssh_login_info()
+    login_ip = ssh_info.split()[0]
+    msg_body = "%s\nhttp://www.ip138.com/ips.asp?ip=%s&action=2" % (ssh_info, login_ip)
     msg = make_msg(me['LOGIN'],
                    toaddrs,
                    'VPS Login Notification',
-                   get_ssh_login_info())
+                   msg_body)
 
     try:
         mail(me['LOGIN'], toaddrs, msg)
