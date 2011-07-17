@@ -19,10 +19,8 @@
 # Then you will receive an email when anybody logins to your site.
 # The default log file is at /tmp/vps-login-notifier.log
 
-import smtplib
 import os
 import sys
-import logging
 
 # An example setting for Gmail
 me = {"LOGIN": "blablabla@gmail.com",
@@ -60,6 +58,8 @@ if __name__ == "__main__":
         print >> sys.stderr, "fork #1 failed: %d (%s)" % (e.errno, e.strerror)
         sys.exit(1)
 
+    import smtplib
+    import logging
     logging.basicConfig(filename=logfile,
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
