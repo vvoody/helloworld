@@ -3,7 +3,9 @@
 # a script for the sake of your health
 # when you login to desktop, this script will create an hourly
 # job for you. After one hour, it will notify you to stand up.
-# put one line in your ~/.xinitrc file:
+# put one line in your ~/.xinitrc file if use startx,
+#                      ~/.kde/Autostart/foo.sh if use KDE,
+#                      ??? if use ???:
 # bash /path/to/stand_up_every_hour.sh
 
 ICON=/tmp/icon
