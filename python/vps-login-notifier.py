@@ -1,4 +1,4 @@
-#!/usr/bin/evn python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # This is a notifier program which sends email to admin when
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     ssh_info = get_ssh_login_info()
     login_ip = ssh_info.split()[0]
-    msg_body = "%s\nhttp://www.ip138.com/ips.asp?ip=%s&action=2" % (ssh_info, login_ip)
+    msg_body = "%s\nhttp://whatismyipaddress.com/ip/%s" % (ssh_info, login_ip)
     msg = make_msg(me['LOGIN'],
                    toaddrs,
                    'VPS Login Notification',
