@@ -1,6 +1,8 @@
 #!/bin/sh
 # Start/stop/restart all the openvpn processes
 #by Giancarlo Razzolini
+# from http://openvpn.net/archive/openvpn-users/2005-06/msg00030.html
+# modified by vvoody
 
 #openvpn binary
 openvpn=/usr/sbin/openvpn
@@ -8,6 +10,8 @@ openvpn=/usr/sbin/openvpn
 piddir=/var/run/openvpn
 #conf dir
 confdir=/etc/openvpn
+#log file
+logfile=/var/log/openvpn.log
 
 #Let us check if the binary exists
 if [ ! -f $openvpn -o ! -x $openvpn ] ; then
@@ -15,13 +19,15 @@ if [ ! -f $openvpn -o ! -x $openvpn ] ; then
     exit 1
 fi
 
+mkdir -p $piddir
+
 openvpn_start() {
     #for all the conf files in the openvpn dir, start a new process
     cd $confdir
     echo "Starting Openvpn Tunnels:"
     for conf in `ls *.conf` ; do
-	echo -e "\t$openvpn $confdir/$conf"
-	$openvpn --writepid /var/run/openvpn/`echo $conf | cut -d. -f1`.pid --daemon --config $conf 
+        echo -e "\t$openvpn $confdir/$conf"
+        $openvpn --writepid /var/run/openvpn/`echo $conf | cut -d. -f1`.pid --daemon --log-append $logfile --cd $confdir --config $conf
     done
     return 0
 }
