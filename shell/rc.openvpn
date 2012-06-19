@@ -1,0 +1,70 @@
+#!/bin/sh
+# Start/stop/restart all the openvpn processes
+#by Giancarlo Razzolini
+
+#openvpn binary
+openvpn=/usr/sbin/openvpn
+#piddir
+piddir=/var/run/openvpn
+#conf dir
+confdir=/etc/openvpn
+
+#Let us check if the binary exists
+if [ ! -f $openvpn -o ! -x $openvpn ] ; then
+    echo "Openvpn binary not found or is not executable."
+    exit 1
+fi
+
+openvpn_start() {
+    #for all the conf files in the openvpn dir, start a new process
+    cd $confdir
+    echo "Starting Openvpn Tunnels:"
+    for conf in `ls *.conf` ; do
+	echo -e "\t$openvpn $confdir/$conf"
+	$openvpn --writepid /var/run/openvpn/`echo $conf | cut -d. -f1`.pid --daemon --config $conf 
+    done
+    return 0
+}
+
+openvpn_status() {
+    cd $piddir
+    ls *.pid 1&>2 /dev/null
+    if [ "$?" != "0" ] ; then
+	echo "No openvpn process is running."
+    else
+	for process in `ls *.pid` ; do
+	    echo Process `cat $process` is running...
+	done
+    fi
+    return 0
+}
+
+openvpn_stop() {
+    echo "Stoping Openvpn Tunnels"
+    killall openvpn 2&>1 /dev/null
+    rm -rf $piddir/*.pid
+    return 0
+}
+
+openvpn_restart() {
+    openvpn_stop
+    sleep 1
+    openvpn_start
+}
+    
+case "$1" in
+'start')
+	openvpn_start
+	;;
+'status')
+	openvpn_status
+	;;
+'stop')
+	openvpn_stop
+  ;;
+'restart')
+	openvpn_restart
+	;;
+    *)
+	echo "usage $0 start|stop|restart"
+esac
