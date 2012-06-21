@@ -19,7 +19,7 @@ SNS="# LESS SNS
 
 mylog()
 {
-	echo $(date) " - $1" >> $LOG
+	echo $(date) " - $1" | tee -a $LOG
 }
 
 case "$1" in
