@@ -1,0 +1,7 @@
+{
+    "auth_user":"api",
+    "api_key": "key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "api_url": "https://api.mailgun.net/v2/XXXXXX.mailgun.org/messages",
+    "from": "VPS Notifier <noreply@XXXXXX.mailgun.org>",
+    "recipients": ["xxx@ooo.xxx"]
+}

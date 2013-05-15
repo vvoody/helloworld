@@ -6,14 +6,15 @@
 #
 # Requirements:
 # - Python(of course);
-# - An email account which has enabled SMTP(recommend Gmail);
+# - API key of Mailgun service;
+# - requests (Python HTTP library);
 # - A remote machine like VPS;
 #
 # Usage:
 # put following instructions to ~/.bash_profile (if you use bash):
 #
 #     if [ -r vps-login-notifier.py]; then
-#         python vps-login-notifier.python
+#         python vps-login-notifier.python ~/.vps-login-notifier.conf.json
 #     fi
 #
 # Then you will receive an email when anybody logins to your site.
@@ -21,32 +22,29 @@
 
 import os
 import sys
+import time
+import json
+import logging
+import requests
 
-# An example setting for Gmail
-me = {"LOGIN": "blablabla@gmail.com",
-      "PASSWD": "cptbtptpbcptdtptp",
-      "SMTP": "smtp.gmail.com:587",
-      "SSL": True}
-toaddrs = ["yadayadayada@gmail.com"]
-logfile = '/tmp/vps-login-notifier.log'
-# setting end.
 
-def make_msg(fromaddr, toaddrs, subject, body):
-    msg = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s" %
-           (fromaddr, ", ".join(toaddrs), subject, body))
-    return msg
+LOGFILE = '/tmp/vps-login-notifier.log'
 
-def mail(fromaddr, toaddrs, msg):
-    global me
 
-    server = smtplib.SMTP(me['SMTP'])
-    if me['SSL']: server.starttls()
-    server.login(me['LOGIN'], me['PASSWD'])
-    server.sendmail(fromaddr, toaddrs, msg)
-    server.quit()
+def mail(sender, subject, body):
+
+    return requests.post(
+        sender["api_url"],
+        auth=(sender["auth_user"], sender["api_key"]),
+        data={"from": sender["from"],
+              "to": sender["recipients"],
+              "subject": subject,
+              "text": body})
+
 
 def get_ssh_login_info():
     return os.environ['SSH_CONNECTION'] if 'SSH_CONNECTION' in os.environ else 'No any ssh connection info found!'
+
 
 if __name__ == "__main__":
     try:
@@ -58,23 +56,20 @@ if __name__ == "__main__":
         print >> sys.stderr, "fork #1 failed: %d (%s)" % (e.errno, e.strerror)
         sys.exit(1)
 
-    import smtplib
-    import logging
-    logging.basicConfig(filename=logfile,
+    logging.basicConfig(filename=LOGFILE,
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
+    logging.Formatter.converter = time.gmtime
 
     ssh_info = get_ssh_login_info()
     login_ip = ssh_info.split()[0]
-    msg_body = "%s\nhttp://whatismyipaddress.com/ip/%s" % (ssh_info, login_ip)
-    msg = make_msg(me['LOGIN'],
-                   toaddrs,
-                   'VPS Login Notification',
-                   msg_body)
+    body = "%s\nhttp://whatismyipaddress.com/ip/%s" % (ssh_info, login_ip)
 
-    try:
-        mail(me['LOGIN'], toaddrs, msg)
-    except Exception, e:
-        logging.error(e)
-    else:
+    with open(sys.argv[1]) as conf:
+        sender = json.load(conf)
+    r = mail(sender, 'VPS Login Notification', body)
+    if r.status_code == 200:
         logging.info('login notification email sent OK.')
+    else:
+        print r.text
+        logging.error(r.text)
