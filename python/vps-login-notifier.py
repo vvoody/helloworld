@@ -13,8 +13,8 @@
 # Usage:
 # put following instructions to ~/.bash_profile (if you use bash):
 #
-#     if [ -r vps-login-notifier.py]; then
-#         python vps-login-notifier.python ~/.vps-login-notifier.conf.json
+#     if [ -r vps-login-notifier.py ]; then
+#         python vps-login-notifier.py ~/vps-login-notifier.conf.json
 #     fi
 #
 # Then you will receive an email when anybody logins to your site.
